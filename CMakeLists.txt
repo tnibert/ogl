@@ -60,6 +60,13 @@ add_definitions(
 
 add_executable(play
     exercises/play.cpp
+
+    common/shader.cpp
+    common/shader.hpp
+
+    exercises/SimpleFragmentShader.fragmentshader
+    exercises/SimpleVertexShader.vertexshader
+
 )
 target_link_libraries(play
     ${ALL_LIBS}

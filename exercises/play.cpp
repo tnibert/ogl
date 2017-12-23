@@ -4,6 +4,7 @@
 #include <glfw3.h>
 #include <glm/glm.hpp>
 using namespace glm;
+#include <common/shader.hpp>
 
 int main()
 {
@@ -68,7 +69,13 @@ int main()
     // give vertices to opengl
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
+    GLuint programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
+
     do{
+        // clear screen
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // Use our shader
+        glUseProgram(programID);
         // Draw something
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
