@@ -27,7 +27,18 @@ int main()
         glfwTerminate();
         return -1;
     }
+
+    //GLuint VertexArrayID;
+    //glGenVertexArrays(1, &VertexArrayID);
+    //glBindVertexArray(VertexArrayID);
+
     glfwMakeContextCurrent(window); // Initialize GLEW
+
+    // create and set vertex array object
+    //GLuint VertexArrayID;
+    //glGenVertexArrays(1, &VertexArrayID);
+    //glBindVertexArray(VertexArrayID);
+
     glewExperimental=true; // Needed in core profile
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
@@ -37,8 +48,41 @@ int main()
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
+    // create and set vertex array object
+    GLuint VertexArrayID;
+    glGenVertexArrays(1, &VertexArrayID);
+    glBindVertexArray(VertexArrayID);
+
+    // define triangle
+    static const GLfloat g_vertex_buffer_data[] = {
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+    };
+
+    GLuint vertexbuffer;
+    // generate 1 buffer and put resulting id in vertexbuffer
+    glGenBuffers(1, &vertexbuffer);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    // give vertices to opengl
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
     do{
-        // Draw nothing, see you in tutorial 2 !
+        // Draw something
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glVertexAttribPointer(
+            0,      // attribute 0, must match layout in shader
+            3,      // size
+            GL_FLOAT,   // type
+            GL_FALSE,   // normalized?
+            0,          // stride
+            (void*)0    // array buffer offset
+        );
+        // draw triangle
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDisableVertexAttribArray(0);
 
         // Swap buffers
         glfwSwapBuffers(window);
