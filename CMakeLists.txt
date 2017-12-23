@@ -56,6 +56,19 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
+# play
+
+add_executable(play
+    exercises/play.cpp
+)
+target_link_libraries(play
+    ${ALL_LIBS}
+)
+
+set_target_properties(play PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/exercises/")
+create_target_launcher(play WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/exercises/")
+
+
 # Tutorial 1
 add_executable(tutorial01_first_window 
 	tutorial01_first_window/tutorial01.cpp
